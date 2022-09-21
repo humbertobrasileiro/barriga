@@ -1,0 +1,46 @@
+{
+    "sourceFile": "src/routes/accounts.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1663705162212,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1663706238979,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,20 @@\n const express = require('express')\r\n+const forbiddenError = require('../errors/forbiddenError')\r\n \r\n module.exports = (app) => {\r\n \r\n   const router = express.Router()\r\n \r\n+  router.param('id', async (req, res, next) => {\r\n+    await app.services.account.find({ id: req.params.id })\r\n+    .then(acc => {\r\n+      if (acc.user_id !== req.user.id) {\r\n+        throw new forbiddenError()\r\n+      }\r\n+    })\r\n+  })\r\n+\r\n   router.get('/', async (req, res, next) => {\r\n     await app.services.account.findAll(req.user.id)\r\n       .then(result => res.status(200).json(result))\r\n       .catch(err => next(err))\r\n"
+                },
+                {
+                    "date": 1663706353227,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n const express = require('express')\r\n+\r\n const forbiddenError = require('../errors/forbiddenError')\r\n \r\n module.exports = (app) => {\r\n \r\n@@ -9,8 +10,10 @@\n     await app.services.account.find({ id: req.params.id })\r\n     .then(acc => {\r\n       if (acc.user_id !== req.user.id) {\r\n         throw new forbiddenError()\r\n+      } else {\r\n+        next()\r\n       }\r\n     })\r\n   })\r\n \r\n"
+                },
+                {
+                    "date": 1663706447286,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,14 +24,9 @@\n   })\r\n \r\n   router.get('/:id', async (req, res, next) => {\r\n     await app.services.account.find({ id: req.params.id })\r\n-      .then(result => {\r\n-        if (result.user_id !== req.user.id) {\r\n-          return res.status(403).json({ error: 'This account cannot be accessed by the user who is logged in' })\r\n-        }\r\n-        return res.status(200).json(result)\r\n-      })\r\n+      .then(result => return res.status(200).json(result))\r\n       .catch(err => next(err))\r\n   })\r\n   \r\n   router.post('/', async (req, res, next) => {\r\n"
+                },
+                {
+                    "date": 1663706504908,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n   })\r\n \r\n   router.get('/:id', async (req, res, next) => {\r\n     await app.services.account.find({ id: req.params.id })\r\n-      .then(result => return res.status(200).json(result))\r\n+      .then(result => res.status(200).json(result))\r\n       .catch(err => next(err))\r\n   })\r\n   \r\n   router.post('/', async (req, res, next) => {\r\n"
+                },
+                {
+                    "date": 1663706625988,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,15 +7,15 @@\n   const router = express.Router()\r\n \r\n   router.param('id', async (req, res, next) => {\r\n     await app.services.account.find({ id: req.params.id })\r\n-    .then(acc => {\r\n-      if (acc.user_id !== req.user.id) {\r\n-        throw new forbiddenError()\r\n-      } else {\r\n-        next()\r\n-      }\r\n-    })\r\n+      .then(acc => {\r\n+        if (acc.user_id !== req.user.id) {\r\n+          throw new forbiddenError()\r\n+        } else {\r\n+          next()\r\n+        }\r\n+      })\r\n   })\r\n \r\n   router.get('/', async (req, res, next) => {\r\n     await app.services.account.findAll(req.user.id)\r\n"
+                },
+                {
+                    "date": 1663706794980,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n         } else {\r\n           next()\r\n         }\r\n       })\r\n+      .catch (err => next(err))\r\n   })\r\n \r\n   router.get('/', async (req, res, next) => {\r\n     await app.services.account.findAll(req.user.id)\r\n"
+                },
+                {
+                    "date": 1663706889433,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,9 @@\n           throw new forbiddenError()\r\n         } else {\r\n           next()\r\n         }\r\n-      })\r\n-      .catch (err => next(err))\r\n+      }).catch(err => next(err))\r\n   })\r\n \r\n   router.get('/', async (req, res, next) => {\r\n     await app.services.account.findAll(req.user.id)\r\n"
+                }
+            ],
+            "date": 1663705162212,
+            "name": "Commit-0",
+            "content": "const express = require('express')\r\n\r\nmodule.exports = (app) => {\r\n\r\n  const router = express.Router()\r\n\r\n  router.get('/', async (req, res, next) => {\r\n    await app.services.account.findAll(req.user.id)\r\n      .then(result => res.status(200).json(result))\r\n      .catch(err => next(err))\r\n  })\r\n\r\n  router.get('/:id', async (req, res, next) => {\r\n    await app.services.account.find({ id: req.params.id })\r\n      .then(result => {\r\n        if (result.user_id !== req.user.id) {\r\n          return res.status(403).json({ error: 'This account cannot be accessed by the user who is logged in' })\r\n        }\r\n        return res.status(200).json(result)\r\n      })\r\n      .catch(err => next(err))\r\n  })\r\n  \r\n  router.post('/', async (req, res, next) => {\r\n    const account = { ...req.body, user_id: req.user.id }\r\n    await app.services.account.save(account)\r\n      .then(result => {\r\n        return res.status(201).json(result[0])\r\n      })\r\n      .catch(err => next(err))\r\n  })\r\n\r\n  router.put('/:id', async (req, res, next) => {\r\n    await app.services.account.update(req.params.id, req.body)\r\n      .then(result => res.status(200).json(result[0]))\r\n      .catch(err => next(err))\r\n  })\r\n\r\n  router.delete('/:id', async (req, res, next) => {\r\n    await app.services.account.remove(req.params.id)\r\n      .then(() => res.status(204).send())\r\n      .catch(err => next(err))\r\n  })\r\n   \r\n  return router\r\n}\r\n"
+        }
+    ]
+}

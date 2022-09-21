@@ -1,0 +1,16 @@
+module.exports = {
+  test: {
+    client: 'pg',
+    version: '9.6',
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      password: 'admin',
+      database: 'barriga',
+      connectTimeout: 90000,
+    },
+    migrations: {
+      directory: 'src/migrations',
+    }
+  }
+}
