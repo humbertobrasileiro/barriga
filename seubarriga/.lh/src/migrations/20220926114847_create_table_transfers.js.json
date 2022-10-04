@@ -1,0 +1,46 @@
+{
+    "sourceFile": "src/migrations/20220926114847_create_table_transfers.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1664203881887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664204344274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,4 +18,10 @@\n  */\n  exports.down = (knex) => {\n   return knex.schema.dropTable('transfers');\n };\n+\n+//  User\n+//    Contas\n+//      Transações -> Transferências -> 2 transações\n+//        idTransf\n+//      Saldo\n"
+                },
+                {
+                    "date": 1664204624664,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,18 +1,21 @@\n /**\n  * @param { import(\"knex\").Knex } knex\n  * @returns { Promise<void> }\n  */\n- exports.up = (knex) => {\n-  return knex.schema.createTable('transfers', (t) => {\n-    t.increments('id').primary();\n-    t.integer('acc_id')\n-      .references('id')\n-      .inTable('accounts')\n-      .notNull();\n-    });\n-  };\n+exports.up = (knex, Promise) => {\n+  return Promise.all([\n+      knex.schema.createTable('transfers', (t) => {\n+      t.increments('id').primary();\n \n+      t.integer('acc_id')\n+        .references('id')\n+        .inTable('accounts')\n+        .notNull();\n+      })\n+  ]);\n+};\n+\n /**\n  * @param { import(\"knex\").Knex } knex\n  * @returns { Promise<void> }\n  */\n"
+                },
+                {
+                    "date": 1664210291747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,14 +4,24 @@\n  */\n exports.up = (knex, Promise) => {\n   return Promise.all([\n       knex.schema.createTable('transfers', (t) => {\n-      t.increments('id').primary();\n-\n-      t.integer('acc_id')\n-        .references('id')\n-        .inTable('accounts')\n-        .notNull();\n+        t.increments('id').primary();\n+        t.string('description').notNull();\n+        t.date('date').notNull();\n+        t.decimal('ammount', 15, 2).notNull();\n+        t.integer('acc_ori_id')\n+          .references('id')\n+          .inTable('accounts')\n+          .notNull();\n+        t.integer('acc_des_id')\n+          .references('id')\n+          .inTable('accounts')\n+          .notNull();\n+        t.integer('user_id')\n+          .references('id')\n+          .inTable('users')\n+          .notNull();\n       })\n   ]);\n };\n \n"
+                },
+                {
+                    "date": 1664210622149,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,35 +3,45 @@\n  * @returns { Promise<void> }\n  */\n exports.up = (knex, Promise) => {\n   return Promise.all([\n-      knex.schema.createTable('transfers', (t) => {\n-        t.increments('id').primary();\n-        t.string('description').notNull();\n-        t.date('date').notNull();\n-        t.decimal('ammount', 15, 2).notNull();\n-        t.integer('acc_ori_id')\n-          .references('id')\n-          .inTable('accounts')\n-          .notNull();\n-        t.integer('acc_des_id')\n-          .references('id')\n-          .inTable('accounts')\n-          .notNull();\n-        t.integer('user_id')\n-          .references('id')\n-          .inTable('users')\n-          .notNull();\n-      })\n+    knex.schema.createTable('transfers', (t) => {\n+      t.increments('id').primary();\n+      t.string('description').notNull();\n+      t.date('date').notNull();\n+      t.decimal('ammount', 15, 2).notNull();\n+      t.integer('acc_ori_id')\n+        .references('id')\n+        .inTable('accounts')\n+        .notNull();\n+      t.integer('acc_des_id')\n+        .references('id')\n+        .inTable('accounts')\n+        .notNull();\n+      t.integer('user_id')\n+        .references('id')\n+        .inTable('users')\n+        .notNull();\n+    }),\n+    knex.schema.table('transactions', (t) => {\n+      t.integer('transfer_id')\n+        .references('id')\n+        .inTable('transfer');\n+    })\n   ]);\n };\n \n /**\n  * @param { import(\"knex\").Knex } knex\n  * @returns { Promise<void> }\n  */\n- exports.down = (knex) => {\n-  return knex.schema.dropTable('transfers');\n+ exports.down = (knex, Promise) => {\n+  return Promise.all([\n+    knex.schema.table('transactions', (t) => {\n+      t.dropColumn('transfer_id');\n+    }),\n+    knex.schema.dropTable('transfers');\n+  ]);\n };\n \n //  User\n //    Contas\n"
+                },
+                {
+                    "date": 1664210628500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,10 +41,4 @@\n     }),\n     knex.schema.dropTable('transfers');\n   ]);\n };\n-\n-//  User\n-//    Contas\n-//      Transações -> Transferências -> 2 transações\n-//        idTransf\n-//      Saldo\n"
+                },
+                {
+                    "date": 1664210687007,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,7 +38,7 @@\n   return Promise.all([\n     knex.schema.table('transactions', (t) => {\n       t.dropColumn('transfer_id');\n     }),\n-    knex.schema.dropTable('transfers');\n+    knex.schema.dropTable('transfers')\n   ]);\n };\n"
+                },
+                {
+                    "date": 1664210820522,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,9 @@\n     }),\n     knex.schema.table('transactions', (t) => {\n       t.integer('transfer_id')\n         .references('id')\n-        .inTable('transfer');\n+        .inTable('transfers');\n     })\n   ]);\n };\n \n"
+                }
+            ],
+            "date": 1664203881887,
+            "name": "Commit-0",
+            "content": "/**\n * @param { import(\"knex\").Knex } knex\n * @returns { Promise<void> }\n */\n exports.up = (knex) => {\n  return knex.schema.createTable('transfers', (t) => {\n    t.increments('id').primary();\n    t.integer('acc_id')\n      .references('id')\n      .inTable('accounts')\n      .notNull();\n    });\n  };\n\n/**\n * @param { import(\"knex\").Knex } knex\n * @returns { Promise<void> }\n */\n exports.down = (knex) => {\n  return knex.schema.dropTable('transfers');\n};\n"
+        }
+    ]
+}

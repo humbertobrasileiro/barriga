@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/services/transfers.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1664213628579,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664214610226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,13 @@\n const validationError = require('../errors/validationError');\r\n \r\n module.exports = (app) => {\r\n+\r\n+  const find = (filter = {}) => {\r\n+    return app.db('transfers')\r\n+      .where(filter)\r\n+      .select();\r\n+  }\r\n+\r\n+  return { find };\r\n  \r\n }\r\n"
+                }
+            ],
+            "date": 1664213628579,
+            "name": "Commit-0",
+            "content": "const validationError = require('../errors/validationError');\r\n\r\nmodule.exports = (app) => {\r\n \r\n}\r\n"
+        }
+    ]
+}

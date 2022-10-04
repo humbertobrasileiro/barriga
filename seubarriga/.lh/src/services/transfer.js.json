@@ -1,0 +1,62 @@
+{
+    "sourceFile": "src/services/transfer.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 11,
+            "patches": [
+                {
+                    "date": 1664801593618,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664813612730,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,17 +47,19 @@\n         date: transfer.date,\r\n         ammount: transfer.ammount * -1,\r\n         type: 'O',\r\n         acc_id: transfer.acc_ori_id,\r\n-        transfer_id: transferId\r\n+        transfer_id: transferId,\r\n+        status: true\r\n       },\r\n       { \r\n         description: `Transfer from acc #${transfer.acc_ori_id}`, \r\n         date: transfer.date,\r\n         ammount: transfer.ammount,\r\n         type: 'I',\r\n         acc_id: transfer.acc_des_id,\r\n-        transfer_id: transferId\r\n+        transfer_id: transferId,\r\n+        status: true\r\n       }\r\n     ];\r\n \r\n     await app.db('transactions').insert(transactions);\r\n@@ -76,17 +78,19 @@\n         date: transfer.date,\r\n         ammount: transfer.ammount * -1,\r\n         type: 'O',\r\n         acc_id: transfer.acc_ori_id,\r\n-        transfer_id: id\r\n+        transfer_id: id,\r\n+        status: true\r\n       },\r\n       { \r\n         description: `Transfer from acc #${transfer.acc_ori_id}`, \r\n         date: transfer.date,\r\n         ammount: transfer.ammount,\r\n         type: 'I',\r\n         acc_id: transfer.acc_des_id,\r\n-        transfer_id: id\r\n+        transfer_id: id,\r\n+        status: true\r\n       }\r\n     ];\r\n \r\n     await app.db('transactions')\r\n"
+                },
+                {
+                    "date": 1664819791757,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,8 +38,10 @@\n   const save = async (transfer) => {\r\n \r\n     const result = await app.db('transfers').insert(transfer, '*');\r\n \r\n+    console.log(transfer)\r\n+\r\n     const transferId = result[0].id;\r\n \r\n     const transactions = [\r\n       { \r\n"
+                },
+                {
+                    "date": 1664819902512,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n   const save = async (transfer) => {\r\n \r\n     const result = await app.db('transfers').insert(transfer, '*');\r\n \r\n-    console.log(transfer)\r\n+    console.log('t', transfer);\r\n \r\n     const transferId = result[0].id;\r\n \r\n     const transactions = [\r\n"
+                },
+                {
+                    "date": 1664823281957,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,12 +36,12 @@\n   };\r\n \r\n   const save = async (transfer) => {\r\n \r\n+    console.log('t', transfer);\r\n+\r\n     const result = await app.db('transfers').insert(transfer, '*');\r\n \r\n-    console.log('t', transfer);\r\n-\r\n     const transferId = result[0].id;\r\n \r\n     const transactions = [\r\n       { \r\n"
+                },
+                {
+                    "date": 1664823522306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,10 +36,8 @@\n   };\r\n \r\n   const save = async (transfer) => {\r\n \r\n-    console.log('t', transfer);\r\n-\r\n     const result = await app.db('transfers').insert(transfer, '*');\r\n \r\n     const transferId = result[0].id;\r\n \r\n"
+                },
+                {
+                    "date": 1664823665078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,8 +40,10 @@\n     const result = await app.db('transfers').insert(transfer, '*');\r\n \r\n     const transferId = result[0].id;\r\n \r\n+    console.log(transferId);\r\n+\r\n     const transactions = [\r\n       { \r\n         description: `Transfer to acc #${transfer.acc_des_id}`, \r\n         date: transfer.date,\r\n"
+                },
+                {
+                    "date": 1664825843989,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,10 +28,13 @@\n     const accounts = await app.db('accounts')\r\n       .whereIn('id', [transfer.acc_ori_id, transfer.acc_des_id])\r\n       .select();\r\n \r\n+      console.log(accounts);\r\n+\r\n     accounts.forEach(acc => {\r\n-      if (acc.user_id !== parseInt(transfer.user_id, 10)) throw new validationError('Accounts belong to another user');\r\n+      if (acc.user_id !== parseInt(transfer.user_id, 10)) \r\n+        throw new validationError('Accounts belong to another user');\r\n     }); \r\n     \r\n   };\r\n \r\n"
+                },
+                {
+                    "date": 1664825915062,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     const accounts = await app.db('accounts')\r\n       .whereIn('id', [transfer.acc_ori_id, transfer.acc_des_id])\r\n       .select();\r\n \r\n-      console.log(accounts);\r\n+      console.log(' contas ', accounts);\r\n \r\n     accounts.forEach(acc => {\r\n       if (acc.user_id !== parseInt(transfer.user_id, 10)) \r\n         throw new validationError('Accounts belong to another user');\r\n"
+                },
+                {
+                    "date": 1664826179431,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,11 +28,10 @@\n     const accounts = await app.db('accounts')\r\n       .whereIn('id', [transfer.acc_ori_id, transfer.acc_des_id])\r\n       .select();\r\n \r\n-      console.log(' contas ', accounts);\r\n-\r\n     accounts.forEach(acc => {\r\n+      console.log(' c ', acc.user_id);\r\n       if (acc.user_id !== parseInt(transfer.user_id, 10)) \r\n         throw new validationError('Accounts belong to another user');\r\n     }); \r\n     \r\n"
+                },
+                {
+                    "date": 1664826252095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n       .whereIn('id', [transfer.acc_ori_id, transfer.acc_des_id])\r\n       .select();\r\n \r\n     accounts.forEach(acc => {\r\n-      console.log(' c ', acc.user_id);\r\n+      console.log(' c ', acc.user_id, transfer.user_id);\r\n       if (acc.user_id !== parseInt(transfer.user_id, 10)) \r\n         throw new validationError('Accounts belong to another user');\r\n     }); \r\n     \r\n"
+                },
+                {
+                    "date": 1664826600669,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,8 @@\n       .whereIn('id', [transfer.acc_ori_id, transfer.acc_des_id])\r\n       .select();\r\n \r\n     accounts.forEach(acc => {\r\n-      console.log(' c ', acc.user_id, transfer.user_id);\r\n       if (acc.user_id !== parseInt(transfer.user_id, 10)) \r\n         throw new validationError('Accounts belong to another user');\r\n     }); \r\n     \r\n@@ -42,10 +41,8 @@\n     const result = await app.db('transfers').insert(transfer, '*');\r\n \r\n     const transferId = result[0].id;\r\n \r\n-    console.log(transferId);\r\n-\r\n     const transactions = [\r\n       { \r\n         description: `Transfer to acc #${transfer.acc_des_id}`, \r\n         date: transfer.date,\r\n"
+                }
+            ],
+            "date": 1664801593618,
+            "name": "Commit-0",
+            "content": "const validationError = require('../errors/validationError');\r\n\r\nmodule.exports = (app) => {\r\n\r\n  const find = async (filter = {}) => {\r\n    const result = await app.db('transfers')\r\n      .where(filter)\r\n      .select();\r\n    return result;\r\n  };\r\n \r\n  const findOne = async (filter) => {\r\n    const transfer = await app.db('transfers')\r\n      .where(filter)\r\n      .first();\r\n    return transfer;\r\n  };\r\n\r\n  const validate = async (transfer) => {\r\n\r\n    if (!transfer.description) throw new validationError('The description is a required attribute')\r\n    if (!transfer.ammount) throw new validationError('The ammount is a required attribute')\r\n    if (!transfer.date) throw new validationError('The date is a required attribute')\r\n    if (!transfer.acc_ori_id) throw new validationError('The originating account is a required attribute')\r\n    if (!transfer.acc_des_id) throw new validationError('The destination account is a required attribute')\r\n    if (transfer.acc_ori_id === transfer.acc_des_id) throw new validationError('The account origin and destiny cannot equal')\r\n\r\n    const accounts = await app.db('accounts')\r\n      .whereIn('id', [transfer.acc_ori_id, transfer.acc_des_id])\r\n      .select();\r\n\r\n    accounts.forEach(acc => {\r\n      if (acc.user_id !== parseInt(transfer.user_id, 10)) throw new validationError('Accounts belong to another user');\r\n    }); \r\n    \r\n  };\r\n\r\n  const save = async (transfer) => {\r\n\r\n    const result = await app.db('transfers').insert(transfer, '*');\r\n\r\n    const transferId = result[0].id;\r\n\r\n    const transactions = [\r\n      { \r\n        description: `Transfer to acc #${transfer.acc_des_id}`, \r\n        date: transfer.date,\r\n        ammount: transfer.ammount * -1,\r\n        type: 'O',\r\n        acc_id: transfer.acc_ori_id,\r\n        transfer_id: transferId\r\n      },\r\n      { \r\n        description: `Transfer from acc #${transfer.acc_ori_id}`, \r\n        date: transfer.date,\r\n        ammount: transfer.ammount,\r\n        type: 'I',\r\n        acc_id: transfer.acc_des_id,\r\n        transfer_id: transferId\r\n      }\r\n    ];\r\n\r\n    await app.db('transactions').insert(transactions);\r\n  \r\n    return result;\r\n  };\r\n\r\n  const update = async (id, transfer) => {\r\n    const result = await app.db('transfers')\r\n      .where({ id })\r\n      .update(transfer, '*');\r\n\r\n    const transactions = [\r\n      { \r\n        description: `Transfer to acc #${transfer.acc_des_id}`, \r\n        date: transfer.date,\r\n        ammount: transfer.ammount * -1,\r\n        type: 'O',\r\n        acc_id: transfer.acc_ori_id,\r\n        transfer_id: id\r\n      },\r\n      { \r\n        description: `Transfer from acc #${transfer.acc_ori_id}`, \r\n        date: transfer.date,\r\n        ammount: transfer.ammount,\r\n        type: 'I',\r\n        acc_id: transfer.acc_des_id,\r\n        transfer_id: id\r\n      }\r\n    ];\r\n\r\n    await app.db('transactions')\r\n      .where({ transfer_id: id })\r\n      .del();\r\n\r\n    await app.db('transactions').insert(transactions);\r\n  \r\n    return await app.db('transfers').where({ id }).update(transfer, '*');\r\n    \r\n  };\r\n\r\n  const remove = async (id) => {\r\n\r\n    await app.db('transactions').where({ transfer_id: id }).del();\r\n\r\n    return await app.db('transfers').where({ id }).del();\r\n  };\r\n\r\n  return { find, findOne, validate, save, update, remove };\r\n \r\n}\r\n"
+        }
+    ]
+}

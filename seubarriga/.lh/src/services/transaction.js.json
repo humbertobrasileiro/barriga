@@ -1,0 +1,82 @@
+{
+    "sourceFile": "src/services/transaction.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 16,
+            "patches": [
+                {
+                    "date": 1664194656668,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664194665010,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n \r\n     if ((transaction.type === 'I' && transaction.ammout < 0) \r\n       || (transaction.type === 'O' && transaction.ammout > 0)) {\r\n         transaction.ammout *= -1;\r\n-      }\r\n+    }\r\n     const transDB = await find(transaction.acc_id, { description: transaction.description });\r\n \r\n     if (transDB && transDB.length > 0 ) {\r\n       throw new validationError('We Found another transaction with an equal name');\r\n"
+                },
+                {
+                    "date": 1664194692787,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,11 +19,11 @@\n   };\r\n \r\n   const save = async (transaction) => {\r\n \r\n-    if ((transaction.type === 'I' && transaction.ammout < 0) \r\n-      || (transaction.type === 'O' && transaction.ammout > 0)) {\r\n-        transaction.ammout *= -1;\r\n+    if ((transaction.type === 'I' && transaction.ammount < 0) \r\n+      || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n+        transaction.ammount *= -1;\r\n     }\r\n     const transDB = await find(transaction.acc_id, { description: transaction.description });\r\n \r\n     if (transDB && transDB.length > 0 ) {\r\n"
+                },
+                {
+                    "date": 1664194717811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,8 +23,9 @@\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n     }\r\n+    \r\n     const transDB = await find(transaction.acc_id, { description: transaction.description });\r\n \r\n     if (transDB && transDB.length > 0 ) {\r\n       throw new validationError('We Found another transaction with an equal name');\r\n"
+                },
+                {
+                    "date": 1664196028128,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,13 +19,24 @@\n   };\r\n \r\n   const save = async (transaction) => {\r\n \r\n+    if (!transaction.description) throw new validationError('The description is a riquered attribute')\r\n+    if (!transaction.ammount) throw new validationError('The ammount is a riquered attribute')\r\n+    if (!transaction.date) throw new validationError('The date is a riquered attribute')\r\n+    if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n+    \r\n+    if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n+    else {\r\n+      const arr = ['I', 'O'];\r\n+      if (!array.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n+    }\r\n+\r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n     }\r\n-    \r\n+\r\n     const transDB = await find(transaction.acc_id, { description: transaction.description });\r\n \r\n     if (transDB && transDB.length > 0 ) {\r\n       throw new validationError('We Found another transaction with an equal name');\r\n"
+                },
+                {
+                    "date": 1664196120793,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,8 +27,9 @@\n     \r\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n     else {\r\n       const arr = ['I', 'O'];\r\n+      console.log(transaction.type)\r\n       if (!array.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n     }\r\n \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n"
+                },
+                {
+                    "date": 1664196251789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,17 +21,8 @@\n   const save = async (transaction) => {\r\n \r\n     if (!transaction.description) throw new validationError('The description is a riquered attribute')\r\n     if (!transaction.ammount) throw new validationError('The ammount is a riquered attribute')\r\n-    if (!transaction.date) throw new validationError('The date is a riquered attribute')\r\n-    if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n-    \r\n-    if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n-    else {\r\n-      const arr = ['I', 'O'];\r\n-      console.log(transaction.type)\r\n-      if (!array.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n-    }\r\n \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n"
+                },
+                {
+                    "date": 1664196543756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,9 +21,10 @@\n   const save = async (transaction) => {\r\n \r\n     if (!transaction.description) throw new validationError('The description is a riquered attribute')\r\n     if (!transaction.ammount) throw new validationError('The ammount is a riquered attribute')\r\n-\r\n+    if (!transaction.date) throw new validationError('The date is a riquered attribute')\r\n+    \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n     }\r\n"
+                },
+                {
+                    "date": 1664196600075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,9 @@\n \r\n     if (!transaction.description) throw new validationError('The description is a riquered attribute')\r\n     if (!transaction.ammount) throw new validationError('The ammount is a riquered attribute')\r\n     if (!transaction.date) throw new validationError('The date is a riquered attribute')\r\n+    if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n     \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n"
+                },
+                {
+                    "date": 1664196675634,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,8 +23,9 @@\n     if (!transaction.description) throw new validationError('The description is a riquered attribute')\r\n     if (!transaction.ammount) throw new validationError('The ammount is a riquered attribute')\r\n     if (!transaction.date) throw new validationError('The date is a riquered attribute')\r\n     if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n+    if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n     \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n"
+                },
+                {
+                    "date": 1664196822417,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,9 +24,14 @@\n     if (!transaction.ammount) throw new validationError('The ammount is a riquered attribute')\r\n     if (!transaction.date) throw new validationError('The date is a riquered attribute')\r\n     if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n-    \r\n+\r\n+    if (transaction.type) {\r\n+      const arr = ['I', 'O'];\r\n+      if (!array.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n+    }\r\n+\r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n         transaction.ammount *= -1;\r\n     }\r\n"
+                },
+                {
+                    "date": 1664196850104,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n \r\n     if (transaction.type) {\r\n       const arr = ['I', 'O'];\r\n-      if (!array.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n+      if (!arr.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n     }\r\n \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n"
+                },
+                {
+                    "date": 1664196954273,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,10 +26,10 @@\n     if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n \r\n     if (transaction.type) {\r\n-      const arr = ['I', 'O'];\r\n-      if (!arr.includes[transaction.type]) throw new validationError('This type of transaction is invalid')\r\n+      if (transaction.type !== 'I' && transaction !== 'O']) \r\n+        throw new validationError('This type of transaction is invalid')\r\n     }\r\n \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n"
+                },
+                {
+                    "date": 1664196979657,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n \r\n     if (transaction.type) {\r\n-      if (transaction.type !== 'I' && transaction !== 'O']) \r\n+      if (transaction.type !== 'I' && transaction !== 'O') \r\n         throw new validationError('This type of transaction is invalid')\r\n     }\r\n \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n"
+                },
+                {
+                    "date": 1664197072959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,10 +26,12 @@\n     if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n \r\n     if (transaction.type) {\r\n-      if (transaction.type !== 'I' && transaction !== 'O') \r\n+      if (transaction.type !== 'I' && transaction !== 'O') {\r\n+        console.log(transaction.type)\r\n         throw new validationError('This type of transaction is invalid')\r\n+      }\r\n     }\r\n \r\n     if ((transaction.type === 'I' && transaction.ammount < 0) \r\n       || (transaction.type === 'O' && transaction.ammount > 0)) {\r\n"
+                },
+                {
+                    "date": 1664197235772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n     if (!transaction.acc_id) throw new validationError('The account is a riquered attribute')\r\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n \r\n     if (transaction.type) {\r\n-      if (transaction.type !== 'I' && transaction !== 'O') {\r\n+      if (transaction.type !== 'I' && transaction.type !== 'O') {\r\n         console.log(transaction.type)\r\n         throw new validationError('This type of transaction is invalid')\r\n       }\r\n     }\r\n"
+                },
+                {
+                    "date": 1664197274154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,8 @@\n     if (!transaction.type) throw new validationError('The type is a riquered attribute')\r\n \r\n     if (transaction.type) {\r\n       if (transaction.type !== 'I' && transaction.type !== 'O') {\r\n-        console.log(transaction.type)\r\n         throw new validationError('This type of transaction is invalid')\r\n       }\r\n     }\r\n \r\n"
+                }
+            ],
+            "date": 1664194656668,
+            "name": "Commit-0",
+            "content": "const validationError = require('../errors/validationError');\r\n\r\nmodule.exports = (app) => {\r\n \r\n  const find = async (userId, filter = {}) => {\r\n    const result = await app.db('transactions')\r\n      .join('accounts', 'accounts.id', 'acc_id')\r\n      .where(filter)\r\n      .andWhere('accounts.user_id', '=', userId)\r\n      .select();\r\n    return result;\r\n  };\r\n\r\n  const findOne = async (filter) => {\r\n    const transaction = await app.db('transactions')\r\n      .where(filter)\r\n      .first();\r\n    return transaction;\r\n  };\r\n\r\n  const save = async (transaction) => {\r\n\r\n    if ((transaction.type === 'I' && transaction.ammout < 0) \r\n      || (transaction.type === 'O' && transaction.ammout > 0)) {\r\n        transaction.ammout *= -1;\r\n      }\r\n    const transDB = await find(transaction.acc_id, { description: transaction.description });\r\n\r\n    if (transDB && transDB.length > 0 ) {\r\n      throw new validationError('We Found another transaction with an equal name');\r\n    }\r\n\r\n    return app.db('transactions').insert(transaction, '*');\r\n  };\r\n\r\n  const update = async (id, transaction) => {\r\n    return await app.db('transactions').where({ id }).update(transaction, '*');\r\n  };\r\n\r\n  const remove = async (id) => {\r\n    return await app.db('transactions').where({ id }).del();\r\n  };\r\n\r\n  return { \r\n    find, \r\n    findOne,\r\n    save,\r\n    update,\r\n    remove,\r\n  };\r\n}\r\n"
+        }
+    ]
+}

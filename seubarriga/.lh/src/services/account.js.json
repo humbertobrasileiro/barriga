@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/services/account.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1664201142852,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664201527560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,11 +33,11 @@\n \r\n   const remove = async (id) => {\r\n     const transaction = await app.services.transaction.findOne({ acc_id: id });\r\n \r\n-    if (transaction) then\r\n+    if (transaction)\r\n       throw new validationError('this Account has transactions in database')\r\n-      \r\n+\r\n     return await app.db('accounts').where({ id }).del();\r\n   };\r\n \r\n   return { \r\n"
+                }
+            ],
+            "date": 1664201142852,
+            "name": "Commit-0",
+            "content": "const validationError = require('../errors/validationError');\r\n\r\nmodule.exports = (app) => {\r\n\r\n  const findAll = (userId) => {\r\n    return app.db('accounts').where({ user_id: userId });\r\n  };\r\n  \r\n  const find = (filter = {}) => {\r\n    return app.db('accounts').where(filter).first();\r\n  };\r\n\r\n  const save = async (account) => {\r\n    if (!account.name) {\r\n      throw new validationError('The name is a required attribute')\r\n    }\r\n    if (!account.user_id) {\r\n      throw new validationError('The user id is a required attribute')\r\n    }\r\n\r\n    const accDB = await find({ name: account.name, user_id: account.user_id });\r\n\r\n    if (accDB) {\r\n      throw new validationError('We Found another account with an equal name');\r\n    }\r\n\r\n    return await app.db('accounts').insert(account, '*');\r\n  };\r\n\r\n  const update = async (id, account) => {\r\n    return await app.db('accounts').where({ id }).update(account, '*');\r\n  };\r\n\r\n  const remove = async (id) => {\r\n    const transaction = await app.services.transaction.findOne({ acc_id: id });\r\n\r\n    if (transaction) then\r\n      throw new validationError('this Account has transactions in database')\r\n      \r\n    return await app.db('accounts').where({ id }).del();\r\n  };\r\n\r\n  return { \r\n    findAll, \r\n    find, \r\n    save, \r\n    update,\r\n    remove,\r\n  };\r\n}\r\n"
+        }
+    ]
+}

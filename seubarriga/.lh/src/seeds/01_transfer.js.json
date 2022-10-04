@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/seeds/01_transfer.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1664811321649,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664823028484,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n const passport = require('passport');\n \n-exports.seed = (knex) => {\n+exports.seed = async (knex) => {\n   // Deletes ALL existing entries\n-  return knex('transactions').del()\n+  return await knex('transactions').del()\n     .then(() => knex('transfers').del())\n     .then(() => knex('accounts').del())\n     .then(() => knex('users').del())\n     .then(() => knex('users').insert([\n"
+                },
+                {
+                    "date": 1664823246709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n const passport = require('passport');\n \n-exports.seed = async (knex) => {\n+exports.seed = (knex) => {\n   // Deletes ALL existing entries\n-  return await knex('transactions').del()\n+  return knex('transactions').del()\n     .then(() => knex('transfers').del())\n     .then(() => knex('accounts').del())\n     .then(() => knex('users').del())\n     .then(() => knex('users').insert([\n"
+                }
+            ],
+            "date": 1664811321649,
+            "name": "Commit-0",
+            "content": "const passport = require('passport');\n\nexports.seed = (knex) => {\n  // Deletes ALL existing entries\n  return knex('transactions').del()\n    .then(() => knex('transfers').del())\n    .then(() => knex('accounts').del())\n    .then(() => knex('users').del())\n    .then(() => knex('users').insert([\n      { id: 10000, name: 'User #1', mail: 'user1@mail.com', passwd: '$2a$10$7C5k85zM22XOrO7t5ZeXF.a.9vJ7diRyfsISeKIBm0ksw3JNbbvMi' },\n      { id: 10001, name: 'User #2', mail: 'user2@mail.com', passwd: '$2a$10$7C5k85zM22XOrO7t5ZeXF.a.9vJ7diRyfsISeKIBm0ksw3JNbbvMi' }\n    ]))\n    .then(() => knex('accounts').insert([\n      { id: 10000, name: 'AccO #1', user_id: 10000 },\n      { id: 10001, name: 'AccD #1', user_id: 10000 },\n      { id: 10002, name: 'AccO #2', user_id: 10001 },\n      { id: 10003, name: 'AccD #2', user_id: 10001 }\n    ]))\n    .then(() => knex('transfers').insert([\n      { id: 10000, description: 'Transfer #1', user_id: 10000, acc_ori_id: 10000, acc_des_id: 10001, ammount: 100, date: new Date() },\n      { id: 10001, description: 'Transfer #2', user_id: 10001, acc_ori_id: 10002, acc_des_id: 10003, ammount: 100, date: new Date() }\n    ]))\n    .then(() => knex('transactions').insert([\n      { description: 'Transfer from AccO #1', date: new Date(), ammount: 100, type: 'I', acc_id: 10001, transfer_id: 10000 },\n      { description: 'Transfer to AccD #1', date: new Date(), ammount: -100, type: 'O', acc_id: 10000, transfer_id: 10001 },\n      { description: 'Transfer from AccO #2', date: new Date(), ammount: 100, type: 'I', acc_id: 10003, transfer_id: 10001 },\n      { description: 'Transfer to AccD #2', date: new Date(), ammount: -100, type: 'O', acc_id: 10002, transfer_id: 10001 }\n    ]));\n};\n"
+        }
+    ]
+}

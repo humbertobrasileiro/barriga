@@ -1,0 +1,26 @@
+{
+    "sourceFile": "package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1664203469366,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1664203600958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,10 @@\n   \"scripts\": {\n     \"start\": \"node src/server.js\",\n     \"test\": \"jest\",\n     \"lint\": \"eslint src/** test/** --fix\",\n-    \"secure-node\": \"jest --watch --verbose=true\"\n+    \"secure-node-t\": \"jest --watch --verbose=true\",\n+    \"secure-node-f\": \"jest --watch --verbose=false\"\n   },\n   \"keywords\": [],\n   \"author\": \"\",\n   \"license\": \"ISC\",\n"
+                },
+                {
+                    "date": 1664822352145,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,9 @@\n   \"scripts\": {\n     \"start\": \"node src/server.js\",\n     \"test\": \"jest\",\n     \"lint\": \"eslint src/** test/** --fix\",\n-    \"secure-node-t\": \"jest --watch --verbose=true\",\n-    \"secure-node-f\": \"jest --watch --verbose=false\"\n+    \"secure-node\": \"jest --watch --verbose=true\"\n   },\n   \"keywords\": [],\n   \"author\": \"\",\n   \"license\": \"ISC\",\n@@ -25,8 +24,9 @@\n     \"express\": \"4.16.4\",\n     \"jwt-simple\": \"0.5.5\",\n     \"knex\": \"0.15.2\",\n     \"knex-logger\": \"0.1.0\",\n+    \"moment\": \"2.22.2\",\n     \"passport\": \"0.4.0\",\n     \"passport-jwt\": \"4.0.0\",\n     \"pg\": \"8.0.3\"\n   }\n"
+                }
+            ],
+            "date": 1664203469366,
+            "name": "Commit-0",
+            "content": "{\n  \"name\": \"seubarriga\",\n  \"version\": \"1.0.0\",\n  \"description\": \"\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node src/server.js\",\n    \"test\": \"jest\",\n    \"lint\": \"eslint src/** test/** --fix\",\n    \"secure-node\": \"jest --watch --verbose=true\"\n  },\n  \"keywords\": [],\n  \"author\": \"\",\n  \"license\": \"ISC\",\n  \"devDependencies\": {\n    \"eslint\": \"^8.23.1\",\n    \"jest\": \"23.6.0\",\n    \"supertest\": \"3.3.0\"\n  },\n  \"dependencies\": {\n    \"bcrypt-nodejs\": \"0.0.3\",\n    \"body-parser\": \"1.18.3\",\n    \"consign\": \"0.1.6\",\n    \"express\": \"4.16.4\",\n    \"jwt-simple\": \"0.5.5\",\n    \"knex\": \"0.15.2\",\n    \"knex-logger\": \"0.1.0\",\n    \"passport\": \"0.4.0\",\n    \"passport-jwt\": \"4.0.0\",\n    \"pg\": \"8.0.3\"\n  }\n}\n"
+        }
+    ]
+}
